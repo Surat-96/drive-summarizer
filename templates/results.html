@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Summaries</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+        }
+        
+        .btn-csv {
+            background: #28a745;
+        }
+        
+        .btn-pdf {
+            background: #dc3545;
+        }
+        
+        .summary-count {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 10px;
+            color: #004085;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .file-name {
+            font-weight: bold;
+            color: #333;
+            word-break: break-word;
+        }
+        
+        .file-link {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 0.9em;
+        }
+        
+        .file-link:hover {
+            text-decoration: underline;
+        }
+        
+        .file-type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge-pdf {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .badge-docx {
+            background: #4dabf7;
+            color: white;
+        }
+        
+        .badge-txt {
+            background: #51cf66;
+            color: white;
+        }
+        
+        .summary-text {
+            color: #555;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        
+        .timestamp {
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Document Summaries</h1>
+        <p class="subtitle">AI-generated summaries of your documents</p>
+        
+        <div class="actions">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">🏠 Home</a>
+            {% if summaries %}
+            <a href="{{ url_for('export_csv') }}" class="btn btn-csv">📥 Download CSV</a>
+            <a href="{{ url_for('export_pdf') }}" class="btn btn-pdf">📄 Download PDF</a>
+            {% endif %}
+        </div>
+        
+        {% if success %}
+        <div class="alert alert-success">
+            ✓ {{ success }}
+        </div>
+        {% endif %}
+        
+        {% if error %}
+        <div class="alert alert-error">
+            ⚠ {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if summaries %}
+            <div class="summary-count">
+                📁 Processed {{ summaries|length }} document(s)
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>File Name</th>
+                            <th>Summary</th>
+                            <th>Processed At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for summary in summaries %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <div class="file-name">
+                                    {{ summary.file_name }}
+                                    {% if summary.file_type %}
+                                    <span class="file-type-badge badge-{{ summary.file_type }}">
+                                        {{ summary.file_type.upper() }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                {% if summary.file_url %}
+                                <a href="{{ summary.file_url }}" target="_blank" class="file-link">
+                                    🔗 Open in Drive
+                                </a>
+                                {% endif %}
+                            </td>
+                            <td class="summary-text">{{ summary.summary }}</td>
+                            <td class="timestamp">{{ summary.processed_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="no-results">
+                <div class="no-results-icon">📭</div>
+                <h2>No documents found</h2>
+                <p>No supported documents were found in the folder, or an error occurred during processing.</p>
+                <a href="{{ url_for('index') }}" class="btn" style="margin-top: 20px;">Go Back</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
